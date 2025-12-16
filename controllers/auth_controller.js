@@ -2,10 +2,7 @@ import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
 import User from "../models/user_models.js";
 import { asyncHandler } from "../utils/async-handler.js";
-import {
-  emailVerificationMailgenContent,
-  sendMail,
-} from "../utils/mail.js";
+import { emailVerificationMailgenContent, sendMail } from "../utils/mail.js";
 
 
 const generateAccessTokenandRefreshToken = async (userId) => {
@@ -20,13 +17,9 @@ const generateAccessTokenandRefreshToken = async (userId) => {
 
     return { accessToken, refreshToken };
   } catch (error) {
-    throw new ApiError(
-      500,
-      "Something went wrong while generating tokens"
-    );
+    throw new ApiError(500, "Something went wrong while generating tokens");
   }
 };
-
 
 const registerUserController = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
@@ -50,16 +43,13 @@ const registerUserController = asyncHandler(async (req, res) => {
     isEmailVerified: false,
   });
 
-
-  const { unhashToken, hashToken, tokenExpiry } =
-    user.generateTemporaryToken();
+  const { unhashToken, hashToken, tokenExpiry } = user.generateTemporaryToken();
 
   user.emailVerificationToken = hashToken;
   user.emailVerificationTokenExpiry = tokenExpiry;
 
   await user.save({ validateBeforeSave: false });
 
-  
   await sendMail({
     email: user.email,
     subject: "Verify your email",
@@ -75,13 +65,72 @@ const registerUserController = asyncHandler(async (req, res) => {
     "-password -refreshToken -emailVerificationToken -emailVerificationTokenExpiry"
   );
 
-  return res.status(201).json(
-    new ApiResponse(
-      201,
-      { user: createdUser },
-      "User registered successfully. Verification email sent."
-    )
-  );
+  if (!createdUser) {
+    throw new ApiError(500, "something went wrong while Registering a user");
+  }
+
+  return res
+    .status(201)
+    .json(
+      new ApiResponse(
+        201,
+        { user: createdUser },
+        "User registered successfully. Verification email sent."
+      )
+    );
 });
 
-export { registerUserController };
+const loginUserController = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email) {
+    throw new ApiError(400, "Email is required");
+  }
+
+  if (!password) {
+    throw new ApiError(400, "Password is required");
+  }
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new ApiError(400, "Invalid email or password");
+  }
+
+  const isPasswordValid = await user.isPasswordCorrect(password);
+
+  if (!isPasswordValid) {
+    throw new ApiError(400, "Invalid email or password");
+  }
+
+  const { accessToken, refreshToken } =
+    await generateAccessTokenandRefreshToken(user._id);
+
+  const loggedInUser = await User.findById(user._id).select(
+    "-password -refreshToken"
+  );
+
+  if (!loggedInUser) {
+    throw new ApiError(500, "Something went wrong while logging in");
+  }
+
+  const options = {
+    httpOnly: true,
+    secure: true, // production me true
+    sameSite: "strict",
+  };
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        { user: loggedInUser },
+        "User logged in successfully"
+      )
+    );
+});
+
+export { registerUserController, loginUserController };

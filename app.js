@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
-
+import cookieParser from "cookie-parser";
 const app = express();
 import cors from "cors";
 app.use(express.json({ limit: "16kb" }));
@@ -16,6 +16,7 @@ app.use(
 );
 
 app.use(express.static("public"));
+app.use(cookieParser());
 
 import helthcheckRouter from "./routes/healthcheck_routes.js";
 
