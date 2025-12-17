@@ -1,38 +1,68 @@
-# 🔐 Authentication & Authorization API
+# 🚀 Project Management System – Backend API
 
-A **production-ready authentication and authorization REST API** built using **Node.js, Express, and MongoDB**.  
-This project follows clean architecture principles and implements secure, scalable, and modern authentication flows used in real-world applications.
+A **production-grade backend API** for the ** Project Management System**, built with **Node.js, Express, and MongoDB**.  
+This system is designed to handle **secure authentication, role-based access, and scalable user management** following real-world industry practices.
 
 ---
 
-## 🚀 Features
+## 🌟 Overview
 
-- User Registration with Email Verification  
-- Secure Login with JWT (Access & Refresh Tokens)  
-- Token Refresh Mechanism  
-- Protected Routes with JWT Middleware  
+The **CH Project Management System** provides a robust backend foundation for managing users, authentication flows, and secure access control.  
+The architecture focuses on **scalability, maintainability, and security**, making it suitable for real production environments.
+
+---
+
+## 🔐 Core Features
+
+- Secure User Registration with Email Verification  
+- JWT-based Authentication (Access & Refresh Tokens)  
+- Token Rotation & Refresh Strategy  
+- Protected Routes with Middleware-based Authorization  
 - Forgot & Reset Password Flow  
-- Change Current Password (Authenticated Users)  
-- Get Current Logged-in User  
-- Secure Logout  
+- Change Current Password for Logged-in Users  
+- Get Current Authenticated User  
+- Secure Logout with Token Invalidation  
 - Request Validation using `express-validator`  
-- Centralized Error Handling  
-- HTTP-only Secure Cookies  
-- Clean MVC Folder Structure  
+- Centralized Error Handling & Standard API Responses  
+- Clean and Scalable Project Structure  
+
+---
+
+## 🧱 Architecture & Design Principles
+
+- **MVC Pattern** for clean separation of concerns  
+- **Middleware-driven security** (Auth, Validation, Error handling)  
+- **Reusable utilities** for responses, errors, and async handling  
+- **Environment-based configuration** for flexible deployments  
+- **Production-safe coding standards**  
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend:** Node.js, Express.js  
-- **Database:** MongoDB, Mongoose  
+- **Runtime:** Node.js  
+- **Framework:** Express.js  
+- **Database:** MongoDB + Mongoose  
 - **Authentication:** JWT (Access & Refresh Tokens)  
-- **Security:** bcrypt, crypto  
 - **Validation:** express-validator  
-- **Email Service: Mailgen  
-- **Environment Management:** dotenv  
+- **Security:** bcrypt, crypto  
+- **Email:** Nodemailer / Mailgen  
 
 ---
+
+🧪 Production-Ready Practices Used
+
+Secure password hashing
+
+Token expiration handling
+
+Refresh token storage & validation
+
+Centralized error responses
+
+Environment-based configurations
+
+Clean and maintainable codebase
 
 ## 📁 Project Structure
 
@@ -57,56 +87,21 @@ src/
 └── server.js
 
 
----
+## 🔄 Authentication Flow
 
-## 🔐 Authentication Flow
 
 Register → Email Verification → Login
 → Access Token + Refresh Token
-→ Protected Routes
+→ Protected APIs
 → Refresh Token → New Access Token
 
 
 
 ---
 
-## 📌 API Endpoints
-
-### Authentication
-
-| Method | Endpoint | Description | Protected |
-|------|---------|-------------|-----------|
-| POST | `/api/auth/register` | Register new user | ❌ |
-| POST | `/api/auth/login` | Login user | ❌ |
-| GET | `/api/auth/email-verify/:token` | Verify email | ❌ |
-| POST | `/api/auth/refreshAccessToken` | Refresh access token | ❌ |
-| GET | `/api/auth/logout` | Logout user | ✅ |
-| GET | `/api/auth/current-user` | Get current user | ✅ |
-
----
-
-### Password Management
-
-| Method | Endpoint | Description | Protected |
-|------|---------|-------------|-----------|
-| POST | `/api/auth/forgotPassword` | Send password reset email | ❌ |
-| POST | `/api/auth/resetForgotPassword/:token` | Reset password | ❌ |
-| POST | `/api/auth/changeCurrentPassword` | Change current password | ✅ |
-
----
-
-## 🛡️ Security Highlights
-
-- Passwords are hashed using **bcrypt**
-- JWT tokens are stored in **HTTP-only cookies**
-- Refresh tokens are securely stored in the database
-- Token expiration and validation handled centrally
-- Request validation on all endpoints
-
----
 ## ⚙️ Environment Configuration
 
-Create a `.env` file in the root directory and configure the following environment variables:
+Create a `.env` file in the root directory:
 
 ```env
 PORT=3000
@@ -124,3 +119,5 @@ EMAIL_USER=your_email@gmail.com
 EMAIL_PASS=your_email_password
 
 CLIENT_URL=http://localhost:5173
+
+`
