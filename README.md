@@ -7,7 +7,7 @@ This system is designed to handle **secure authentication, role-based access, an
 
 ## 🌟 Overview
 
-The **CH Project Management System** provides a robust backend foundation for managing users, authentication flows, and secure access control.  
+The **Project Management System** provides a robust backend foundation for managing users, authentication flows, and secure access control.  
 The architecture focuses on **scalability, maintainability, and security**, making it suitable for real production environments.
 
 ---
