@@ -104,12 +104,11 @@ Register → Email Verification → Login
 - Request validation on all endpoints
 
 ---
+## ⚙️ Environment Configuration
 
-## ⚙️ Environment Variables
+Create a `.env` file in the root directory and configure the following environment variables:
 
-Create a `.env` file in the root directory:
-
-env
+```env
 PORT=3000
 MONGO_URI=mongodb://localhost:27017/your-database-name
 
@@ -125,10 +124,3 @@ EMAIL_USER=your_email@gmail.com
 EMAIL_PASS=your_email_password
 
 CLIENT_URL=http://localhost:5173
-
-
-👨‍💻 Author
-
-Chetan Badgujar
-Backend Developer
-
