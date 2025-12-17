@@ -109,7 +109,7 @@ Register → Email Verification → Login
 
 Create a `.env` file in the root directory:
 
-```env
+env
 PORT=3000
 MONGO_URI=mongodb://localhost:27017/your-database-name
 
